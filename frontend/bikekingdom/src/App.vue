@@ -8,7 +8,6 @@
         <v-img
           alt="BikeKingdom Logo"
           contain
-
           src="https://www.bikekingdom.ch/microsites-assets/bike-kingdom/Logos/image-thumb__4113581__landingpage-logo/BikeKingdomLenzerheide_LOGO_WideBlack.webp"
           transition="scale-transition"
           height="50px"
