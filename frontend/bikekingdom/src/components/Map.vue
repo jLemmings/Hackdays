@@ -17,6 +17,9 @@
     >
       <l-tile-layer :url="url"></l-tile-layer>
       <l-geo-json :geojson="geojson"></l-geo-json>
+
+
+      Stadia.AlidadeSmooth
     </l-map>
   </div>
 </template>
@@ -31,7 +34,7 @@ export default {
   },
   data () {
     return {
-      url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      url: 'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png',
       zoom: 15,
       center: [46.721974,9.531102],
       bounds: null,
