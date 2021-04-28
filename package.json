@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "leaflet-providers": "^1.12.0"
+  }
+}
