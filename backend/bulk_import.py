@@ -33,4 +33,4 @@ def import_bergbahn_data(path):
 
 
 if __name__ == '__main__':
-    import_bergbahn_data("C:/Users/annam/OneDrive/Documents/dev/MSC/Hackdays/data")
+    import_bergbahn_data("/Users/joshuahemmings/OneDrive/BikeKingdom/Data/filtered_data")
