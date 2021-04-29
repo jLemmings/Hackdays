@@ -1,9 +1,11 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_restful import Api, Resource, reqparse
 import pandas as pd
 import mysql.connector
 from sqlalchemy import create_engine, types
 import pymysql
+import json
+
 pymysql.install_as_MySQLdb()
 mydb = mysql.connector.connect(
     host="127.0.0.1",
@@ -54,8 +56,36 @@ class Bergbahn(Resource):
         return {'data' : data}, 200
 
 
+
+class Trail(Resource):
+    def get(self):
+        argument = request.args
+        print(argument)
+        name = request.args.get("name")
+        print(name)
+        if name == None:
+            raise ValueError
+            print("Name must be given")
+        name= name.replace("'", "")
+        print(name)
+        engine = create_engine('mysql://root:example@localhost:3307/Bikekingdom')
+        sql_statement = f"SELECT * FROM Bikekingdom.trail_descr"
+        cursor.execute(sql_statement)
+
+        df = pd.read_sql(sql_statement, con=engine)
+        print(df.head(2))
+
+        df.replace("\\", "", inplace=True)
+
+        #from flask_jsonpify import jsonpify
+        df_list = df.values.tolist()
+        JSONP_data = jsonify(df_list)
+        return JSONP_data
+
+
 # Add URL endpoints
 api.add_resource(Bergbahn,'/bergbahn')
+api.add_resource(Trail,'/trail_descr')
 
 
 if __name__ == '__main__':
