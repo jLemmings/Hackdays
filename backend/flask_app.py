@@ -70,17 +70,19 @@ class Trail(Resource):
         print(name)
         engine = create_engine('mysql://root:example@localhost:3307/Bikekingdom')
         sql_statement = f"SELECT * FROM Bikekingdom.trail_descr"
-        cursor.execute(sql_statement)
+        #cursor.execute(sql_statement)
 
         df = pd.read_sql(sql_statement, con=engine)
-        print(df.head(2))
+        #print(df.head(2))
 
-        df.replace("\\", "", inplace=True)
+        #df.replace("\\", "", inplace=True)
 
         #from flask_jsonpify import jsonpify
-        df_list = df.values.tolist()
+        print(df.columns)
+        df_list = df['geojson'].tolist()
+        print(df_list)
         JSONP_data = jsonify(df_list)
-        return JSONP_data
+        return df_list, 200
 
 
 # Add URL endpoints
