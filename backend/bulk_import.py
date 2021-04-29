@@ -5,7 +5,7 @@ import ast
 import pandas as pd
 import geopandas as gpd
 import sqlalchemy
-
+import datetime
 from shapely.geometry import Point, LineString
 import os
 from sqlalchemy import create_engine, types
@@ -59,6 +59,13 @@ def import_trail_definitions(path):
 
 def import_trails_ridden(path):
     trails = pd.read_json(path)
+    trails["started_at"]
+    trails[['started_at_date', 'started_at_time']] = trails['started_at'].dt.strftime('%Y-%m-%d %H:%M:%S').str.split(" ", expand=True,)
+    trails['hour_started'] = pd.to_datetime(trails['started_at_time']).dt.hour
+    # trails['weekday'] = pd.to_datetime(trails['started_at_date']).dt.dayofweek
+    dayOfWeek = {0: 'Mo', 1: 'Di', 2: 'Mi', 3: 'Do', 4: 'Fr', 5: 'Sa', 6: 'So'}
+    trails['weekday'] = pd.to_datetime(trails['started_at_date']).dt.dayofweek.map(dayOfWeek)
+    trails.drop(columns=["started_at_time","started_at_date"], inplace=True)
     engine = create_engine('mysql://root:example@localhost:3307/Bikekingdom')
     trails.to_sql("trails_user", con=engine, if_exists='replace', index=False, index_label=None, chunksize=None, dtype=None,
               method=None)
