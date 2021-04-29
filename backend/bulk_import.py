@@ -49,7 +49,6 @@ def import_trail_definitions(path):
     cursor.execute("CREATE TABLE IF NOT EXISTS trail_descr(description text, region text, title text, trailId text, geojson text)")
     sql = "INSERT INTO trail_descr (description, region, title, trailId, geojson) VALUES (%s, %s, %s, %s, %s)"
 
-
     for i in range(0, len(trailDefinitons)-1):
         row = trailDefinitons.iloc[i]
         test = json.dumps(row[5])
@@ -58,7 +57,14 @@ def import_trail_definitions(path):
         cursor.execute(sql, val)
         mydb.commit()
 
+def import_trails_ridden(path):
+    trails = pd.read_json(path)
+    engine = create_engine('mysql://root:example@localhost:3307/Bikekingdom')
+    trails.to_sql("trails_user", con=engine, if_exists='replace', index=False, index_label=None, chunksize=None, dtype=None,
+              method=None)
+
+
 
 if __name__ == '__main__':
-    import_trail_definitions(
-        "/Users/joshuahemmings/OneDrive/BikeKingdom/Data/Insidelab Trails/bk_trail_definitions.json")
+    import_trails_ridden(
+        "C:/Users/annam/OneDrive/Documents/HSLU/MSC/FS21/DC/BikeKingdom/Data/Insidelab Trails/bk_user_trails.json")
